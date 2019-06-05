@@ -14,15 +14,18 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash \
       libpng-dev \
     && apt-get -y autoremove \
     && apt-get clean \
-    && rm -r /var/lib/apt/lists/*
+    && rm -r /var/lib/apt/lists/* \
+    && pecl install xdebug-2.7.2
 RUN docker-php-ext-install \
-    gd \
-    bcmath \
-    sockets \
-    pcntl \
-    zip \
-    exif \
-    pdo_mysql
+      gd \
+      bcmath \
+      sockets \
+      pcntl \
+      zip \
+      exif \
+      pdo_mysql \
+    && docker-php-ext-enable \
+      xdebug
 #
 #openssh-client \
 #      ca-certificates \
@@ -76,7 +79,6 @@ RUN service supervisor start
 RUN cron
 # Set PHP configurations
 COPY php.ini /etc/php/7.3/apache2/php.ini
-COPY xdebug.ini /etc/php/7.3/mods-available/xdebug.ini
 ## Install codesniffer
 RUN curl -O https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
 RUN chmod +x phpcs.phar
