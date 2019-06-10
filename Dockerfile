@@ -8,15 +8,20 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash \
       git \
       rsync \
       openssh-client \
-
+      screenfetch \
       libzip-dev \
       zlib1g-dev \
       libpng-dev \
+      libfreetype6-dev \
+      libjpeg62-turbo-dev \
     && apt-get -y autoremove \
     && apt-get clean \
     && rm -r /var/lib/apt/lists/* \
-    && pecl install xdebug-2.7.2
-RUN docker-php-ext-install \
+    && pecl install xdebug-2.7.2 \
+    && docker-php-ext-configure gd \
+      --with-freetype-dir=/usr/include/ \
+      --with-jpeg-dir=/usr/include/
+RUN docker-php-ext-install -j$(nproc) \
       gd \
       bcmath \
       sockets \
@@ -114,4 +119,4 @@ RUN ln -sf /dev/stdout /var/log/apache2/access.log \
     && ln -sf /dev/stderr /var/log/apache2/error.log
 
 EXPOSE 80
-CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
+CMD ["screenfetch", ";", "/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
