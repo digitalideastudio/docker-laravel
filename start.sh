@@ -1,4 +1,4 @@
 #!/bin/bash
 
 screenfetch
-/usr/sbin/apache2ctl -D FOREGROUND
+/usr/bin/supervisord -c /etc/supervisor/supervisord.conf

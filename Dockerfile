@@ -31,39 +31,6 @@ RUN docker-php-ext-install -j$(nproc) \
       pdo_mysql \
     && docker-php-ext-enable \
       xdebug
-#
-#openssh-client \
-#      ca-certificates \
-#      wget \
-#      git \
-#      netcat \
-#      rsync \
-#      php7.3-dev \
-#      php7.3-cli \
-#      php7.3-mbstring \
-#      php7.3-bcmath \
-#      php7.3-mongodb \
-#      php7.3-mysql \
-#      php7.3-xml \
-#      php7.3-gmp \
-#      php7.3-curl \
-#      php7.3-zip \
-#      php7.3-gd \
-#      php7.3-dom \
-#      php7.3-xdebug \
-#      php-curl \
-#      php-imagick \
-#      php-redis \
-#      bzip2 \
-#      nodejs \
-#      python-dev \
-#      libasound2 \
-#      libcairo2-dev \
-#      libjpeg-dev \
-#      libgif-dev \
-#      autoconf \
-#      vim \
-#      g++
 # Install AWS Environment
 RUN curl -sL https://bootstrap.pypa.io/get-pip.py | python3 \
   && pip3 install awscli
@@ -71,17 +38,12 @@ RUN curl -sL https://bootstrap.pypa.io/get-pip.py | python3 \
 #RUN phpdismod -s cli xdebug
 COPY artisan /var/www/html
 RUN chmod 0755 /var/www/html/artisan
-RUN service cron start
 # Add crontab file in the cron directory
 ADD crontab /etc/cron.d/timeragent-cron
 # Give execution rights on the cron job
 RUN chmod 0644 /etc/cron.d/timeragent-cron
-# Apply cron job
-RUN crontab /etc/cron.d/timeragent-cron
 # Supervisor
-COPY laravel_queue.conf /etc/supervisor/conf.d
-RUN service supervisor start
-RUN cron
+ADD ./supervisord.conf /etc/supervisor/supervisord.conf
 # Set PHP configurations
 COPY php.ini /etc/php/7.3/apache2/php.ini
 ## Install codesniffer
