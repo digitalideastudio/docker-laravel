@@ -45,7 +45,7 @@ RUN chmod 0644 /etc/cron.d/timeragent-cron
 # Supervisor
 ADD ./supervisord.conf /etc/supervisor/supervisord.conf
 # Set PHP configurations
-COPY php.ini /etc/php/7.3/apache2/php.ini
+COPY php.ini /usr/local/etc/php/php.ini
 ## Install codesniffer
 RUN curl -O https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
 RUN chmod +x phpcs.phar
