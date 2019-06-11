@@ -29,6 +29,7 @@ RUN docker-php-ext-install -j$(nproc) \
       zip \
       exif \
       pdo_mysql \
+      pcntl \
     && docker-php-ext-enable \
       xdebug
 # Install AWS Environment
