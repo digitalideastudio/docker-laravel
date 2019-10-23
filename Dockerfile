@@ -1,7 +1,11 @@
-FROM php:7.3-apache
+FROM php:7.4-apache
 MAINTAINER Serhii Matrunchyk <serhii@digitalidea.studio>
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash \
     && apt-get install -y --no-install-recommends \
+      vim \
+      imagemagick \
+      libmagickwand-dev \
+      imagick \
       nodejs \
       cron \
       supervisor \
@@ -18,6 +22,7 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash \
     && apt-get clean \
     && rm -r /var/lib/apt/lists/* \
     && pecl install xdebug-2.7.2 \
+    && pecl install imagick \
     && docker-php-ext-configure gd \
       --with-freetype-dir=/usr/include/ \
       --with-jpeg-dir=/usr/include/
@@ -31,7 +36,8 @@ RUN docker-php-ext-install -j$(nproc) \
       pdo_mysql \
       pcntl \
     && docker-php-ext-enable \
-      xdebug
+      xdebug \
+      imagick
 # Install AWS Environment
 RUN curl -sL https://bootstrap.pypa.io/get-pip.py | python3 \
   && pip3 install awscli
