@@ -5,7 +5,6 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash \
       vim \
       imagemagick \
       libmagickwand-dev \
-      imagick \
       nodejs \
       cron \
       supervisor \
