@@ -1,4 +1,4 @@
-FROM php:7.4-apache
+FROM php:7.3-apache
 MAINTAINER Serhii Matrunchyk <serhii@digitalidea.studio>
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash \
     && apt-get install -y --no-install-recommends \
